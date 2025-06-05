@@ -46,7 +46,7 @@ https://api.getdione.app
 
 ### Endpoints
 
-#### GET /scripts
+#### GET /v1/scripts
 
 Retrieve scripts with filtering and pagination.
 
@@ -57,10 +57,11 @@ Retrieve scripts with filtering and pagination.
 - `q`: Search query
 - `order_type`: Field to order by
 - `order`: Sort order (asc/desc)
+- `featured`: Filter by featured scripts (true/false)
 
 **Example:**
 ```bash
-curl 'https://api.getdione.app/v1/scripts?page=1&limit=10&tags=audio'
+curl 'https://api.getdione.app/v1/scripts?page=1&limit=10&tags=audio&featured=true'
 ```
 
 #### GET /status

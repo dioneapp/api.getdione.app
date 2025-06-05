@@ -13,6 +13,7 @@ scriptsRouter.get('/', async (c) => {
 	const order = c.req.query("order");
 
     const query = c.req.query("q")
+	const featured = c.req.query("featured")
 
 	const filters = {
 		tags,
@@ -20,7 +21,7 @@ scriptsRouter.get('/', async (c) => {
 		order,
 	};
 
-	const entries = await getFilteredEntries(page, limit, c, filters, query);
+	const entries = await getFilteredEntries(page, limit, c, filters, query, featured);
 
 	if (entries?.status && entries.status >= 400) {
 		return c.json(

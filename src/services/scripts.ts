@@ -18,6 +18,7 @@ export const getFilteredEntries = async (
 	c: Context,
 	filters: { tags?: string; orderType?: string; order?: string },
     search?: string,
+	featured?: string,
 ) => {
 	const supabase = initializeSupabase(c);
 
@@ -55,6 +56,10 @@ export const getFilteredEntries = async (
 
 	if (filters.orderType) {
 		query = query.order(filters.order || "created_at", { ascending: filters.orderType === "asc" });
+	}
+
+	if (featured) {
+		query = query.eq("featured", true);
 	}
 
 	const { data, error } = await query;
