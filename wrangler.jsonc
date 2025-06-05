@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "api",
+  "name": "api-getdione-app",
   "main": "src/index.ts",
   "compatibility_date": "2025-06-02"
   // "compatibility_flags": [
