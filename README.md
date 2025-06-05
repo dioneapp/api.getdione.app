@@ -54,14 +54,24 @@ Retrieve scripts with filtering and pagination.
 - `page`: Page number (default: 1)
 - `limit`: Items per page (default: 10)
 - `tags`: Filter by tags (comma-separated)
-- `q`: Search query
-- `order_type`: Field to order by
-- `order`: Sort order (asc/desc)
+- `q`: Search by name (string)
+- `id`: Search by ID (UUID)
+- `order_type`: Sort order (asc/desc)
+- `order`: Field to order by (default: created_at)
 - `featured`: Filter by featured scripts (true/false)
 
-**Example:**
+**Examples:**
+
 ```bash
-curl 'https://api.getdione.app/v1/scripts?page=1&limit=10&tags=audio&featured=true'
+curl 'https://api.getdione.app/v1/scripts?q=applio'
+```
+
+```bash
+curl 'https://api.getdione.app/v1/scripts?id=08975e39-9e84-4027-8c4f-0130c89c7425'
+```
+
+```bash
+curl 'https://api.getdione.app/v1/scripts?page=1&limit=10&tags=audio&featured=true&order_type=desc&order=created_at'
 ```
 
 #### GET /status

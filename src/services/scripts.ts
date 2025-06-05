@@ -19,6 +19,7 @@ export const getFilteredEntries = async (
 	filters: { tags?: string; orderType?: string; order?: string },
     search?: string,
 	featured?: string,
+	id?: string,
 ) => {
 	const supabase = initializeSupabase(c);
 
@@ -60,6 +61,10 @@ export const getFilteredEntries = async (
 
 	if (featured) {
 		query = query.eq("featured", true);
+	}
+	
+	if (id) {
+		query = query.eq("id", id);
 	}
 
 	const { data, error } = await query;
