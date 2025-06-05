@@ -70,10 +70,51 @@ export const getFilteredEntries = async (
 	const { data, error } = await query;
 
 	if (error) {
+		if (error.code === "PGRST116") {
+			return {
+				status: 404,
+				message: "No results found",
+				code: error.code,
+			};
+		}
+
+		if (error.code === "22P02") {
+			return {
+				status: 400,
+				message: "Bad request",
+				code: error.code,
+			};
+		}
+
+		if (error.code === "401") {
+			return {
+				status: 401,
+				message: "Unauthorized",
+				code: error.code,
+			};
+		}
+
+		if (error.code === "403") {
+			return {
+				status: 403,
+				message: "Forbidden",
+				code: error.code,
+			};
+		}
+
 		console.error("Error getting filtered data", error);
 		return {
 			status: 500,
-			message: "Error getting data from database.",
+			message: "Error getting data from database",
+			code: error.code,
+		};
+	}
+
+	if (!data || !data.length) {
+		return {
+			status: 404,
+			message: "No results found",
+			code: "PGRST116",
 		};
 	}
 

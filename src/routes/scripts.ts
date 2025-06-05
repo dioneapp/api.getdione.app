@@ -30,18 +30,22 @@ scriptsRouter.get('/', async (c) => {
 	if (entries?.status && entries.status >= 400) {
 		return c.json(
 			{
+				error: true,
+				status: entries.status,
 				message: entries.message,
+				code: entries.code,
 			},
-			400,
 		);
 	}
 
-	if (!entries.data) {
+	if (!entries.data || !entries.data.length) {
 		return c.json(
 			{
-				message: "No results found.",
+				error: true,
+				status: entries.status,
+				message: entries.message,
+				code: entries.code,
 			},
-			404,
 		);
 	}
 
