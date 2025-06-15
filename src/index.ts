@@ -4,9 +4,34 @@ import scriptsRouter from './routes/scripts';
 type Bindings = {
   SUPABASE_URL: string;
   SUPABASE_ANON_KEY: string;
+  PRIVATE_KEY: string;
+  RATE_LIMITER: any;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+// rate limit
+app.use(async (c, next) => {
+  const auth = c.req.header('Authorization')
+
+  // if auth, skip rate limit
+  if (auth === 'Bearer ' + c.env.PRIVATE_KEY) {
+    return await next()
+  }
+
+  // if no auth, apply rate limit
+  const ip = c.req.header('cf-connecting-ip') ?? 'unknown'
+  const path = c.req.path
+  const key = `${ip}:${path}`
+
+  const result = await c.env.RATE_LIMITER.limit({ key })
+
+  if (!result.success) {
+    return c.text(`429 Too many requests`, 429)
+  }
+
+  await next()
+})
 
 // v1
 const v1 = new Hono<{ Bindings: Bindings }>();
