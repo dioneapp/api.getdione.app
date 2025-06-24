@@ -48,7 +48,7 @@ export const getFilteredEntries = async (
 		.range(startIndex, endIndex - 1);
 
 	if (search) {
-		query = query.filter("name", "ilike", `%${search}%`);
+		query = query.or(`name.ilike.%${search}%,name.ilike.%${search.replace(/ /g, '-')}`);
 	}
 
 	if (filters.tags) {
