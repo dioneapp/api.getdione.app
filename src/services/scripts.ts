@@ -17,7 +17,7 @@ export const getFilteredEntries = async (
 	pageSize: number,
 	c: Context,
 	filters: { tags?: string; orderType?: string; order?: string },
-    search?: string,
+	search?: string,
 	featured?: string,
 	id?: string,
 ) => {
@@ -48,22 +48,26 @@ export const getFilteredEntries = async (
 		.range(startIndex, endIndex - 1);
 
 	if (search) {
-		const cleanSearch = search.replace(/ /g, '-');
-		query = query.or(`name.ilike.%${cleanSearch}%,name.ilike.%${cleanSearch.replace(/-/g, ' ')}`);
+		const cleanSearch = search.replace(/ /g, "-");
+		query = query.or(
+			`name.ilike.%${cleanSearch}%,name.ilike.%${cleanSearch.replace(/-/g, " ")}`,
+		);
 	}
-	
+
 	if (filters.tags) {
 		query = query.filter("tags", "ilike", `%${filters.tags}%`);
 	}
 
 	if (filters.orderType) {
-		query = query.order(filters.order || "created_at", { ascending: filters.orderType === "asc" });
+		query = query.order(filters.order || "created_at", {
+			ascending: filters.orderType === "asc",
+		});
 	}
 
 	if (featured) {
 		query = query.eq("featured", true);
 	}
-	
+
 	if (id) {
 		query = query.eq("id", id);
 	}
